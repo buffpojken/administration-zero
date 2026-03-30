@@ -1,5 +1,3 @@
-require "pagy/extras/bootstrap"
-
 module Admin::ApplicationHelper
   include Pagy::Frontend
 

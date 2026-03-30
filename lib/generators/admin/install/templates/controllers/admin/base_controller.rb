@@ -1,3 +1,5 @@
+require "pagy"
+
 class Admin::BaseController < ActionController::Base
   include Pagy::Backend
 

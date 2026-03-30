@@ -1,41 +1,41 @@
 <%%= form_with(model: <%= model_resource_name %>) do |form| %>
 <% attributes.each do |attribute| -%>
-  <div class="form-group row mb-2">
+  <div class="flex items-start gap-x-6 mb-4">
 <% if attribute.password_digest? -%>
-    <%%= form.label :password, class: "form-label col-md-3 col-form-label" %>
-    <div class="col-md px-0">
+    <%%= form.label :password, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <div class="flex-1 min-w-0">
       <%%= form.password_field :password, required: true, autocomplete: "new-password", class: "form-control" %>
       <%%= tag.div <%= singular_name %>.errors[:password].first, class: "invalid-feedback" %>
     </div>
   </div>
 
-  <div class="col-md px-0">
-    <%%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-control" %>
-    <%%= tag.div <%= singular_name %>.errors[:password_confirmation].first, class: "invalid-feedback" %>
+  <div class="flex items-start gap-x-6 mb-4">
+    <%%= form.label :password_confirmation, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <div class="flex-1 min-w-0">
+      <%%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-control" %>
+      <%%= tag.div <%= singular_name %>.errors[:password_confirmation].first, class: "invalid-feedback" %>
 <% elsif attribute.attachments? -%>
-    <%%= form.label :<%= attribute.column_name %>, class: "form-label col-md-3 col-form-label" %>
-    <div class="col-md px-0">
+    <%%= form.label :<%= attribute.column_name %>, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <div class="flex-1 min-w-0">
       <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, multiple: true, class: "form-control" %>
       <%%= tag.div <%= singular_name %>.errors[:<%= attribute.column_name %>].first, class: "invalid-feedback" %>
-    </div>
 <% elsif attribute.field_type == :checkbox -%>
-    <%%= form.label :<%= attribute.column_name %>, class: "form-check-label col-md-3 col-form-label" %>
-    <div class="col-md px-0">
-      <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "form-check-input" %>
+    <%%= form.label :<%= attribute.column_name %>, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <div class="flex-1 min-w-0 pt-2">
+      <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4" %>
       <%%= tag.div <%= singular_name %>.errors[:<%= attribute.column_name %>].first, class: "invalid-feedback" %>
-    </div>
 <% else -%>
-    <%%= form.label :<%= attribute.column_name %>, class: "form-label col-md-3 col-form-label" %>
-    <div class="col-md px-0">
+    <%%= form.label :<%= attribute.column_name %>, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <div class="flex-1 min-w-0">
       <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "form-control" %>
       <%%= tag.div <%= singular_name %>.errors[:<%= attribute.column_name %>].first, class: "invalid-feedback" %>
-    </div>
 <% end -%>
+    </div>
   </div>
 
 <% end -%>
   <div class="form-footer">
-    <%%= form.submit class: "btn btn-primary" %>
-    <%%= link_to "Cancel", <%= index_helper(type: :path) %>, class: "btn btn-white" %>
+    <%%= form.submit class: "btn-primary" %>
+    <%%= link_to "Cancel", <%= index_helper(type: :path) %>, class: "btn-white" %>
   </div>
 <%% end %>

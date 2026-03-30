@@ -12,15 +12,13 @@
     <%= render "stylesheet_link_tags" %>
   </head>
 
-  <body>
+  <body class="min-h-screen flex flex-col">
     <%= render "primary_navbar" %>
     <%= render "secondary_navbar" %>
 
-    <div class="page">
-      <div class="page-wrapper">
-        <%= yield %>
-        <%= render "footer" %>
-      </div>
+    <div class="flex-1 flex flex-col">
+      <%= yield %>
+      <%= render "footer" %>
     </div>
 
     <%= render "flash_messages" %>

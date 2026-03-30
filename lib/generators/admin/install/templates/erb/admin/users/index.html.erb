@@ -1,72 +1,101 @@
-<%= render "page_header" do %>
-  <%= render "page_header_breadcrumb", title: "Users" do %>
-    <li class="breadcrumb-item"><%= link_to "Admin", admin_path %></li>
+<div x-data="{ filtersOpen: false }">
+
+  <%= render "page_header" do %>
+    <%= render "page_header_breadcrumb", title: "Users" do %>
+      <li class="breadcrumb-item"><%= link_to "Admin", admin_path %></li>
+    <% end %>
+
+    <%= render "page_header_actions" do %>
+      <button @click="filtersOpen = true" class="btn-white">Filters</button>
+      <%= link_to "New user", new_admin_user_path, class: "btn-primary" %>
+    <% end %>
   <% end %>
 
-  <%= render "page_header_actions" do %>
-    <%= link_to "Filters", "#offcanvas_filters", "data-bs-toggle": "offcanvas", class: "btn btn-white" %>
-    <%= link_to "New user", new_admin_user_path, class: "btn btn-primary" %>
-  <% end %>
-<% end %>
-
-<div class="page-body">
-  <div class="container-xl">
-    <div class="card">
-      <div class="table-responsive">
-        <table class="table table-vcenter table-nowrap card-table table-striped">
-          <thead>
-            <tr>
-              <th><%= sort_link @search, :id %></th>
-              <th><%= sort_link @search, :email %></th>
-              <th><%= sort_link @search, :created_at %></th>
-              <th class="w-1"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |user| %>
+  <div class="page-body">
+    <div class="container-xl">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-vcenter table-nowrap table-striped">
+            <thead>
               <tr>
-                <td><%= link_to user.id, user %></td>
-                <td><%= user.email %></td>
-                <td><%= l(user.created_at, format: :long) %></td>
-                <td>
-                  <%= link_to "View", user, class: "btn btn-white btn-sm" %>
-                  <%= link_to "Edit", edit_admin_user_path(user), class: "btn btn-white btn-sm" %>
-                  <%= link_to "Delete", user, class: "btn btn-white btn-sm", data: { method: :delete, confirm: "Are you sure?" } %>
-                </td>
+                <th><%= sort_link @search, :id %></th>
+                <th><%= sort_link @search, :email %></th>
+                <th><%= sort_link @search, :created_at %></th>
+                <th class="w-px"></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div class="card-footer d-flex align-items-center fs-5">
-        <div class="d-none d-md-block">
-          <div>Download: <%= link_to "CSV", admin_users_path(format: :csv, q: request.params[:q]) %></div>
-          <%== pagy_info(@pagy) %>
+            </thead>
+            <tbody>
+              <% @users.each do |user| %>
+                <tr>
+                  <td><%= link_to user.id, user %></td>
+                  <td><%= user.email %></td>
+                  <td><%= l(user.created_at, format: :long) %></td>
+                  <td class="whitespace-nowrap">
+                    <%= link_to "View", user, class: "btn-white btn-sm" %>
+                    <%= link_to "Edit", edit_admin_user_path(user), class: "btn-white btn-sm" %>
+                    <%= link_to "Delete", user, class: "btn-white btn-sm", data: { method: :delete, confirm: "Are you sure?" } %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
-        <div class="ms-auto">
-          <%== pagy_bootstrap_nav(@pagy) %>
+        <div class="card-footer flex items-center text-sm">
+          <div class="hidden md:block">
+            <div class="text-gray-500">Download: <%= link_to "CSV", admin_users_path(format: :csv, q: request.params[:q]), class: "text-blue-600 hover:text-blue-700" %></div>
+            <%== pagy_info(@pagy) %>
+          </div>
+          <div class="ml-auto">
+            <%== pagy_nav(@pagy) %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="offcanvas_filters" tabindex="-1" class="offcanvas offcanvas-end">
-  <div class="offcanvas-header">
-    <h2 class="offcanvas-title">Filters</h2>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <%= search_form_for @search, class: "offcanvas-body" do |f| %>
-    <%= f.label :email_cont, class: "form-label" %>
-    <%= f.text_field :email_cont, class: "form-control mb-3" %>
+  <!-- Offcanvas backdrop -->
+  <div x-show="filtersOpen"
+       @click="filtersOpen = false"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-150"
+       x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0"
+       class="fixed inset-0 bg-black/40 z-40"></div>
 
-    <%= f.label :created_at, class: "form-label" %>
-    <div class="d-flex gap-1 mb-3">
-      <%= f.date_field :created_at_gteq, class: "form-control" %>
-      <%= f.date_field :created_at_lteq, class: "form-control" %>
+  <!-- Offcanvas panel -->
+  <div x-show="filtersOpen"
+       x-transition:enter="transition transform ease-out duration-200"
+       x-transition:enter-start="translate-x-full"
+       x-transition:enter-end="translate-x-0"
+       x-transition:leave="transition transform ease-in duration-150"
+       x-transition:leave-start="translate-x-0"
+       x-transition:leave-end="translate-x-full"
+       class="fixed inset-y-0 right-0 w-80 bg-white shadow-xl z-50 flex flex-col">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <h2 class="text-base font-semibold text-gray-900">Filters</h2>
+      <button @click="filtersOpen = false"
+              class="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md"
+              aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
+    <%= search_form_for @search, class: "flex-1 overflow-y-auto p-4" do |f| %>
+      <%= f.label :email_cont, class: "form-label" %>
+      <%= f.text_field :email_cont, class: "form-control mb-4" %>
 
-    <%= f.submit "Filter", class: "btn btn-primary" %>
-    <%= link_to "Clear Filter", admin_users_path, class: "btn btn-white" %>
-  <% end %>
+      <%= f.label :created_at, class: "form-label" %>
+      <div class="flex gap-2 mb-4">
+        <%= f.date_field :created_at_gteq, class: "form-control" %>
+        <%= f.date_field :created_at_lteq, class: "form-control" %>
+      </div>
+
+      <div class="flex gap-2">
+        <%= f.submit "Filter", class: "btn-primary" %>
+        <%= link_to "Clear", admin_users_path, class: "btn-white" %>
+      </div>
+    <% end %>
+  </div>
+
 </div>

@@ -1,11 +1,15 @@
 <% message = notice || alert %>
 
 <% if message.present? %>
-  <div class="position-fixed start-50 translate-middle-x" style="z-index: 1030; top: 8rem;">
-    <div class="toast hide text-center text-white bg-dark border-0" data-controller="flash-message">
-      <div class="toast-body">
-        <%= message %>
-      </div>
+  <div class="fixed left-1/2 -translate-x-1/2 z-50" style="top: 5rem;">
+    <div class="flex items-center gap-3 px-5 py-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+         data-controller="flash-message">
+      <%= message %>
+      <button onclick="this.closest('[data-controller]').remove()"
+              class="ml-2 text-white/60 hover:text-white leading-none text-lg"
+              aria-label="Dismiss">
+        &times;
+      </button>
     </div>
   </div>
 <% end %>

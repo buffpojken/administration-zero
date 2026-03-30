@@ -5,8 +5,8 @@
   <%% end %>
 
   <%%= render "page_header_actions" do %>
-    <%%= link_to "Edit <%= human_name.downcase %>", <%= edit_helper(type: :path) %>, class: "btn btn-primary" %>
-    <%%= link_to "Delete <%= human_name.downcase %>", <%= model_resource_name(prefix: "@") %>, class: "btn btn-white", data: { method: :delete, confirm: "Are you sure?" } %>
+    <%%= link_to "Edit <%= human_name.downcase %>", <%= edit_helper(type: :path) %>, class: "btn-primary" %>
+    <%%= link_to "Delete <%= human_name.downcase %>", <%= model_resource_name(prefix: "@") %>, class: "btn-white", data: { method: :delete, confirm: "Are you sure?" } %>
   <%% end %>
 <%% end %>
 
@@ -17,17 +17,17 @@
         <h3 class="card-title"><%= human_name %> details</h3>
       </div>
       <div class="card-body">
-        <dl class="row">
+        <dl class="grid grid-cols-1 gap-y-4 sm:grid-cols-3">
 <% attributes.reject(&:password_digest?).each do |attribute| -%>
-          <dt class="col-md-3"><%= attribute.human_name %></dt>
+          <dt class="text-sm font-medium text-gray-500"><%= attribute.human_name %></dt>
 <% if attribute.attachment? -%>
-          <dd class="col-md-9"><%%= link_to <%= singular_name %>.<%= attribute.column_name %>.filename, <%= singular_name %>.<%= attribute.column_name %> if <%= singular_name %>.<%= attribute.column_name %>.attached? %></dd>
+          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= link_to <%= singular_name %>.<%= attribute.column_name %>.filename, <%= singular_name %>.<%= attribute.column_name %> if <%= singular_name %>.<%= attribute.column_name %>.attached? %></dd>
 <% elsif attribute.attachments? -%>
-    <%% <%= singular_name %>.<%= attribute.column_name %>.each do |<%= attribute.singular_name %>| %>
-          <dd class="col-md-9"><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></dd>
-    <%% end %>
+  <%% <%= singular_name %>.<%= attribute.column_name %>.each do |<%= attribute.singular_name %>| %>
+          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></dd>
+  <%% end %>
 <% else -%>
-          <dd class="col-md-9"><%%= @<%= singular_name %>.<%= attribute.column_name %> %></dd>
+          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= @<%= singular_name %>.<%= attribute.column_name %> %></dd>
 <% end -%>
 <% end -%>
         </dl>
