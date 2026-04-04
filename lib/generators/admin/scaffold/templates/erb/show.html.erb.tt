@@ -19,15 +19,15 @@
       <div class="card-body">
         <dl class="grid grid-cols-1 gap-y-4 sm:grid-cols-3">
 <% attributes.reject(&:password_digest?).each do |attribute| -%>
-          <dt class="text-sm font-medium text-gray-500"><%= attribute.human_name %></dt>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-300"><%= attribute.human_name %></dt>
 <% if attribute.attachment? -%>
-          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= link_to <%= singular_name %>.<%= attribute.column_name %>.filename, <%= singular_name %>.<%= attribute.column_name %> if <%= singular_name %>.<%= attribute.column_name %>.attached? %></dd>
+          <dd class="text-sm text-gray-900 dark:text-gray-100 sm:col-span-2"><%%= link_to <%= singular_name %>.<%= attribute.column_name %>.filename, <%= singular_name %>.<%= attribute.column_name %> if <%= singular_name %>.<%= attribute.column_name %>.attached? %></dd>
 <% elsif attribute.attachments? -%>
   <%% <%= singular_name %>.<%= attribute.column_name %>.each do |<%= attribute.singular_name %>| %>
-          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></dd>
+          <dd class="text-sm text-gray-900 dark:text-gray-100 sm:col-span-2"><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></dd>
   <%% end %>
 <% else -%>
-          <dd class="text-sm text-gray-900 sm:col-span-2"><%%= @<%= singular_name %>.<%= attribute.column_name %> %></dd>
+          <dd class="text-sm text-gray-900 dark:text-gray-100 sm:col-span-2"><%%= @<%= singular_name %>.<%= attribute.column_name %> %></dd>
 <% end -%>
 <% end -%>
         </dl>
