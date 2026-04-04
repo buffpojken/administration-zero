@@ -1,6 +1,6 @@
 <%= form_with(model: user) do |form| %>
   <div class="flex items-start gap-x-6 mb-4">
-    <%= form.label :email, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <%= form.label :email, class: "w-40 pt-2 text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0" %>
     <div class="flex-1 min-w-0">
       <%= form.email_field :email, autocomplete: "email", class: "form-control" %>
       <%= tag.div user.errors[:email].first, class: "invalid-feedback" %>
@@ -8,7 +8,7 @@
   </div>
 
   <div class="flex items-start gap-x-6 mb-4">
-    <%= form.label :password, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <%= form.label :password, class: "w-40 pt-2 text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0" %>
     <div class="flex-1 min-w-0">
       <%= form.password_field :password, required: true, autocomplete: "new-password", class: "form-control" %>
       <%= tag.div user.errors[:password].first, class: "invalid-feedback" %>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="flex items-start gap-x-6">
-    <%= form.label :password_confirmation, class: "w-40 pt-2 text-sm font-medium text-gray-700 flex-shrink-0" %>
+    <%= form.label :password_confirmation, class: "w-40 pt-2 text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0" %>
     <div class="flex-1 min-w-0">
       <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-control" %>
       <%= tag.div user.errors[:password_confirmation].first, class: "invalid-feedback" %>
