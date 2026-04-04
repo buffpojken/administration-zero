@@ -20,14 +20,20 @@ module Admin
 
       def add_gems
         uncomment_lines "Gemfile", /"bcrypt"/
-        gem "pagy", comment: "Use Pagy to add paginated results [https://github.com/ddnexus/pagy]"
+        gem "pagy", "~> 9.3.4", comment: "Use Pagy to add paginated results [https://github.com/ddnexus/pagy]"
         gem "ransack", comment: "Use Ransack to enable the creation of search forms for your application [https://github.com/activerecord-hackery/ransack]"
         gem "spreadsheet_architect", comment: "Spreadsheet Architect is a library that allows you to create XLSX, ODS, or CSV spreadsheets super easily [https://github.com/westonganger/spreadsheet_architect]"
       end
 
       def create_db_files
-        copy_file "seeds.rb", "db/seeds.rb", force: true
-        migration_template "migrations/create_admin_users.rb", "#{db_migrate_path}/create_admin_users.rb"
+        copy_file "seeds.rb", "db/admin.seeds.rb", force: true
+
+        existing_migrations = Dir.glob("#{db_migrate_path}/**/*.rb")
+
+        puts existing_migrations.inspect
+        unless existing_migrations.any?{|migration| migration.match("create_admin_admin_users.rb")}
+          migration_template "migrations/create_admin_admin_users.rb", "#{db_migrate_path}/create_admin_admin_users.rb"
+        end
       end
 
       def create_models
@@ -36,7 +42,7 @@ module Admin
       end
 
       def create_fixture_file
-        copy_file "test_unit/admin_users.yml", "test/fixtures/admin/users.yml"
+        copy_file "test_unit/admin_admin_users.yml", "test/fixtures/admin/admin_users.yml"
       end
 
       def create_controllers
@@ -59,9 +65,17 @@ module Admin
         directory "images", "app/assets/images"
       end
 
+      def create_stylesheet
+        copy_file "assets/stylesheets/admin.tailwind.css", "app/assets/tailwind/admin.tailwind.css"
+      end
+
+      def create_stylesheet_entrypoint
+        copy_file "javascript/entrypoints/admin.css", "app/javascript/entrypoints/admin.css" 
+      end
+
       def add_routes
         route "resource  :password_reset", namespace: :admin
-        route "resources :users", namespace: :admin
+        route "resources :admin_users", namespace: :admin
         route "delete 'sign_out', to: 'sessions#destroy'", namespace: :admin
         route "post   'sign_in',  to: 'sessions#create'", namespace: :admin
         route "get    'sign_in',  to: 'sessions#new'", namespace: :admin

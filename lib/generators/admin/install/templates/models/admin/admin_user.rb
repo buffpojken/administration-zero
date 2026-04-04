@@ -1,4 +1,4 @@
-class Admin::User < Admin::ApplicationRecord
+class Admin::AdminUser < Admin::ApplicationRecord
   has_secure_password
 
   generates_token_for :password_reset, expires_in: 20.minutes do

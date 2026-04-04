@@ -9,7 +9,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= render "stylesheet_link_tags" %>
+    <%= vite_client_tag %>
+    <%= vite_stylesheet_tag "admin.css" %>
+    <%= vite_javascript_tag 'application' %>
   </head>
 
   <body class="min-h-screen flex flex-col">

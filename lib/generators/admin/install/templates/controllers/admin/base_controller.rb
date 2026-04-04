@@ -12,7 +12,7 @@ class Admin::BaseController < ActionController::Base
     end
 
     def authenticate
-      if user = Admin::User.find_by_id(session[:admin_user_id])
+      if user = Admin::AdminUser.find_by_id(session[:admin_user_id])
         Admin::Current.user = user
       else
         redirect_to admin_sign_in_path
